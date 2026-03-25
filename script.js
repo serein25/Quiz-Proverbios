@@ -99,8 +99,8 @@ function nextQuestion() {
     }
 }
 
-async function finishGame() {
-    await saveScore(playerFullName, score);
+function finishGame() {
+    saveScore(playerFullName, score);
     alert(`Fim de jogo! Você acertou ${score} de ${quiz.length}`);
     showLeaderboard();
 }
@@ -113,31 +113,15 @@ const supabaseClient = supabase.createClient(SB_URL, SB_KEY);
 
 // 6. SISTEMA DE RANKING (SQL REAL)
 async function saveScore(name, pts) {
-    console.log("Verificando recorde no SQL...");
-
-    // 1. Primeiro, buscamos se o jogador já existe e qual a pontuação dele
-    const { data: existingPlayer, error: fetchError } = await supabaseClient
+    console.log("Tentando salvar no SQL...");
+    const { data, error } = await supabaseClient
         .from('ranking')
-        .select('pontuacao')
-        .eq('nome', name)
-        .single();
-
-    // 2. Se o jogador já existe e a pontuação nova NÃO é maior, não fazemos nada
-    if (existingPlayer && pts <= existingPlayer.pontuacao) {
-        console.log("Pontuação menor ou igual ao recorde atual. Nada alterado.");
-        return;
-    }
-
-    // 3. Se não existe ou se a pontuação é maior, usamos o upsert
-    // O 'onConflict' diz: "se o nome for igual, atualize o resto"
-    const { error } = await supabaseClient
-        .from('ranking')
-        .upsert({ nome: name, pontuacao: pts }, { onConflict: 'nome' });
+        .insert([{ nome: name, pontuacao: pts }]);
 
     if (error) {
-        console.error("Erro ao atualizar ranking:", error.message);
+        console.error("Erro ao salvar no banco:", error.message);
     } else {
-        console.log("Recorde atualizado com sucesso!");
+        console.log("Salvo com sucesso!");
     }
 }
 
