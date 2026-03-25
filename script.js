@@ -99,7 +99,7 @@ function nextQuestion() {
     }
 }
 
-function finishGame() {
+async function finishGame() {
     await saveScore(playerFullName, score);
     alert(`Fim de jogo! Você acertou ${score} de ${quiz.length}`);
     showLeaderboard();
