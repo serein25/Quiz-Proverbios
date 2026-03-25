@@ -100,7 +100,7 @@ function nextQuestion() {
 }
 
 function finishGame() {
-    saveScore(playerFullName, score);
+    await saveScore(playerFullName, score);
     alert(`Fim de jogo! Você acertou ${score} de ${quiz.length}`);
     showLeaderboard();
 }
