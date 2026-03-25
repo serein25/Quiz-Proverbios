@@ -1,0 +1,76 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #111;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+}
+
+.container {
+    max-width: 500px;
+    margin: auto;
+}
+
+/* Estilo dos Inputs */
+input {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 10px;
+    border: 1px solid #444;
+    background: #222;
+    color: white;
+    box-sizing: border-box; /* Garante que o padding não quebre a largura */
+}
+
+/* Estilo dos Botões */
+button {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    background: #333;
+    color: white;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #555;
+}
+
+/* Botões Especiais */
+#nextBtn, .btn-primary {
+    background: #007bff;
+}
+
+#view-leaderboard-btn {
+    background: #6c757d;
+}
+
+/* Cores de Resposta */
+.correct { background: green !important; }
+.wrong { background: red !important; }
+
+/* Lista de Ranking */
+#leaderboard-list {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+}
+
+#leaderboard-list li {
+    background: #222;
+    margin: 8px 0;
+    padding: 12px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    border-left: 4px solid #007bff;
+}
+
+hr { border: 0; height: 1px; background: #333; margin: 20px 0; }
