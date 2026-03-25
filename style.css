@@ -73,4 +73,16 @@ button:hover {
     border-left: 4px solid #007bff;
 }
 
+#stat-combo {
+    display: inline-block;
+    transition: transform 0.2s ease;
+}
+
+/* Classe que criaremos via JS para dar o efeito de impacto */
+.bump {
+    transform: scale(1.5);
+    color: #fff;
+    text-shadow: 0 0 10px #ffc107;
+}
+
 hr { border: 0; height: 1px; background: #333; margin: 20px 0; }
