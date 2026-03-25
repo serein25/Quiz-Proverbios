@@ -24,6 +24,10 @@ let playerFullName = "";
 let timer;
 let timeLeft;
 const TIME_PER_QUESTION = 15; // segundos
+let hits = 0;
+let misses = 0;
+let combo = 0;
+let maxCombo = 0; // Para curiosidade no final
 
 // Pesos de dificuldade
 const weights = { f: 1, m: 1.5, d: 2 };
@@ -109,7 +113,12 @@ function checkAnswer(selectedIndex) {
     clearInterval(timer);
     const q = quiz[current];
     const buttons = document.querySelectorAll("#answers button");
+    
+    const correctSnd = document.getElementById("correctSound");
+    const wrongSnd = document.getElementById("wrongSound");
+    const comboEl = document.getElementById("stat-combo");
 
+    // Desabilitar botões e mostrar cores
     buttons.forEach((btn, i) => {
         btn.disabled = true;
         if (i === q.c) btn.classList.add("correct");
@@ -117,11 +126,39 @@ function checkAnswer(selectedIndex) {
     });
 
     if (selectedIndex === q.c) {
-        // Cálculo: (Peso Dificuldade * 100) + (Tempo Restante * 10)
-        const points = Math.round((weights[q.d] * 100) + (timeLeft * 10));
-        totalScore += points;
+        // LÓGICA DE ACERTO
+        hits++;
+        combo++;
+        if (combo > maxCombo) maxCombo = combo;
+
+        // Tocar som de acerto (resetando o tempo para permitir cliques rápidos)
+        correctSnd.currentTime = 0;
+        correctSnd.play().catch(e => console.log("Erro ao tocar som:", e));
+
+        // Cálculo de pontos: (Dificuldade + Tempo) * Combo
+        const basePoints = Math.round((weights[q.d] * 100) + (timeLeft * 10));
+        totalScore += basePoints * combo;
+
+        // Efeito visual de "pulo" no combo
+        comboEl.classList.add("bump");
+        setTimeout(() => comboEl.classList.remove("bump"), 200);
+        
+    } else {
+        // LÓGICA DE ERRO
+        misses++;
+        combo = 0; // Reset do combo
+
+        // Tocar som de erro
+        wrongSnd.currentTime = 0;
+        wrongSnd.play().catch(e => console.log("Erro ao tocar som:", e));
     }
 
+    // Atualizar os números na tela
+    document.getElementById("stat-hits").innerText = hits;
+    document.getElementById("stat-misses").innerText = misses;
+    comboEl.innerText = combo;
+
+    // Mostrar botão de próxima
     document.getElementById("nextBtn").style.display = "block";
 }
 
@@ -137,7 +174,6 @@ function nextQuestion() {
 async function finishGame() {
     document.getElementById("quiz-container").innerHTML = "<h2>Salvando pontuação...</h2>";
     
-    // BUG 1 e 2 Resolvidos: Esperamos o banco processar antes de mudar de tela
     await saveScore(playerFullName, totalScore);
     
     alert(`Fim de jogo! Pontuação Total: ${totalScore}`);
@@ -182,9 +218,19 @@ async function showLeaderboard() {
         return;
     }
 
-    list.innerHTML = ranking.map((item, index) => 
-        `<li><span>#${index + 1} ${item.nome}</span> <strong>${item.pontuacao} pts</strong></li>`
-    ).join("");
+    list.innerHTML = ranking.map((item, index) => {
+        // Lógica das medalhas
+        let positionDisplay;
+        if (index === 0) positionDisplay = "🥇";
+        else if (index === 1) positionDisplay = "🥈";
+        else if (index === 2) positionDisplay = "🥉";
+        else positionDisplay = `<span style="margin-left:8px">#${index + 1}</span>`;
+
+        return `<li>
+            <span>${positionDisplay} ${item.nome}</span> 
+            <strong>${item.pontuacao} pts</strong>
+        </li>`;
+    }).join("");
 }
 
 function hideAllScreens() {
