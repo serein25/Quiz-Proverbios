@@ -21,6 +21,14 @@
             </div>
 
             <div id="quiz-container" style="display:none;">
+                <audio id="correctSound" src="acerto.mp3"></audio>
+                <audio id="wrongSound" src="erro.mp3"></audio>
+
+                <div id="status-bar" style="display: flex; justify-content: space-around; background: #222; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 0.9em;">
+                    <div style="color: #28a745;">✅ Acertos: <span id="stat-hits">0</span></div>
+                    <div style="color: #dc3545;">❌ Erros: <span id="stat-misses">0</span></div>
+                    <div style="color: #ffc107; font-weight: bold;">🔥 Combo: <span id="stat-combo">0</span>x</div>
+                </div>
                 <div id="progress-bar" style="background: #333; height: 10px; border-radius: 5px; margin-bottom: 10px;">
                     <div id="progress-inner" style="background: #007bff; height: 100%; width: 0%; border-radius: 5px; transition: 0.3s;"></div>
                 </div>
