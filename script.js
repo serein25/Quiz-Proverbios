@@ -1,153 +1,198 @@
-// 1. BANCO DE DADOS DE PERGUNTAS
+// 1. BANCO DE DADOS CATEGORIZADO
 const quiz = [
-    { q: "Quem é o principal autor de Provérbios?", a: ["Davi","Salomão","Moisés","Paulo"], c: 1 },
-    { q: "O temor do Senhor é o princípio da:", a: ["Fé","Vida","Sabedoria","Lei"], c: 2 },
-    { q: "Confia no Senhor de todo o teu...", a: ["Caminho","Coração","Entendimento","Espírito"], c: 1 },
-    { q: "A resposta branda desvia o:", a: ["Orgulho","Pecado","Furor","Caminho"], c: 2 },
-    { q: "O orgulho precede a:", a: ["Vitória","Glória","Queda","Sabedoria"], c: 2 },
-    { q: "Quem encontra uma esposa encontra:", a: ["Problemas","Alegria momentânea","Algo bom","Sabedoria apenas"], c: 2 },
-    { q: "A língua tem poder de:", a: ["Nada","Apenas falar","Vida e morte","Confusão"], c: 2 },
-    { q: "Quem escreveu Provérbios 30?", a: ["Salomão","Agur","Davi","Isaías"], c: 1 },
-    { q: "O preguiçoso deve aprender com:", a: ["Leão","Formiga","Águia","Cavalo"], c: 1 },
-    { q: "Quantas coisas o Senhor odeia?", a: ["5","6","7","8"], c: 2 },
-    { q: "Quem reuniu alguns provérbios?", a: ["Profetas","Sacerdotes","Homens de Ezequias","Levitas"], c: 2 },
-    { q: "A palavra certa é comparada a:", a: ["Ouro","Prata","Maçãs de ouro","Pérolas"], c: 2 },
-    { q: "A sabedoria é descrita como:", a: ["Rei","Anjo","Mulher que clama","Sacerdote"], c: 2 },
-    { q: "Provérbios 31 fala sobre:", a: ["Rei","Mulher virtuosa","Profeta","Guerreiro"], c: 1 },
-    { q: "Melhor é o pouco com justiça do que:", a: ["Muito com paz","Muito com injustiça","Pouco com sabedoria","Muito com fé"], c: 1 }
+    { q: "Quem é o principal autor de Provérbios?", a: ["Davi","Salomão","Moisés","Paulo"], c: 1, d: "f" },
+    { q: "O temor do Senhor é o princípio da:", a: ["Fé","Vida","Sabedoria","Lei"], c: 2, d: "f" },
+    { q: "Confia no Senhor de todo o teu...", a: ["Caminho","Coração","Entendimento","Espírito"], c: 1, d: "f" },
+    { q: "A resposta branda desvia o:", a: ["Orgulho","Pecado","Furor","Caminho"], c: 2, d: "f" },
+    { q: "O orgulho precede a:", a: ["Vitória","Glória","Queda","Sabedoria"], c: 2, d: "m" },
+    { q: "Quem encontra uma esposa encontra:", a: ["Problemas","Alegria momentânea","Algo bom","Sabedoria apenas"], c: 2, d: "m" },
+    { q: "A língua tem poder de:", a: ["Nada","Apenas falar","Vida e morte","Confusão"], c: 2, d: "m" },
+    { q: "Quem escreveu Provérbios 30?", a: ["Salomão","Agur","Davi","Isaías"], c: 1, d: "d" },
+    { q: "O preguiçoso deve aprender com:", a: ["Leão","Formiga","Águia","Cavalo"], c: 1, d: "f" },
+    { q: "Quantas coisas o Senhor odeia?", a: ["5","6","7","8"], c: 2, d: "d" },
+    { q: "Quem reuniu alguns provérbios?", a: ["Profetas","Sacerdotes","Homens de Ezequias","Levitas"], c: 2, d: "d" },
+    { q: "A palavra certa é comparada a:", a: ["Ouro","Prata","Maçãs de ouro","Pérolas"], c: 2, d: "m" },
+    { q: "A sabedoria é descrita como:", a: ["Rei","Anjo","Mulher que clama","Sacerdote"], c: 2, d: "m" },
+    { q: "Provérbios 31 fala sobre:", a: ["Rei","Mulher virtuosa","Profeta","Guerreiro"], c: 1, d: "f" },
+    { q: "Melhor é o pouco com justiça do que:", a: ["Muito com paz","Muito com injustiça","Pouco com sabedoria","Muito com fé"], c: 1, d: "d" }
 ];
 
 // 2. VARIÁVEIS DE ESTADO
 let current = 0;
-let score = 0;
+let totalScore = 0;
 let playerFullName = "";
+let timer;
+let timeLeft;
+const TIME_PER_QUESTION = 15; // segundos
 
-// 3. CONTROLE DE TELAS
-function hideAllScreens() {
-    document.getElementById("start-screen").style.display = "none";
-    document.getElementById("quiz-container").style.display = "none";
-    document.getElementById("leaderboard-screen").style.display = "none";
-}
+// Pesos de dificuldade
+const weights = { f: 1, m: 1.5, d: 2 };
 
+// 3. CONFIGURAÇÃO SUPABASE
+const SB_URL = "https://grkitlnsashyruvtbbaf.supabase.co";
+const SB_KEY = "sb_publishable_yUMvZjmpiMrqKtWpk8dp8Q_GQd_LfAV";
+const supabaseClient = supabase.createClient(SB_URL, SB_KEY);
+
+// 4. INÍCIO DO JOGO
 function startGame() {
     const nome = document.getElementById("firstName").value.trim();
     const sobrenome = document.getElementById("lastName").value.trim();
 
     if (nome === "" || sobrenome === "") {
-        alert("Por favor, preencha seu nome e sobrenome!");
+        alert("Preencha seu nome!");
         return;
     }
 
     playerFullName = `${nome} ${sobrenome}`;
     current = 0;
-    score = 0;
+    totalScore = 0;
 
-    hideAllScreens();
+    document.getElementById("start-screen").style.display = "none";
     document.getElementById("quiz-container").style.display = "block";
     document.getElementById("display-name").innerText = playerFullName;
     loadQuestion();
 }
 
-function showLeaderboard() {
-    hideAllScreens();
-    document.getElementById("leaderboard-screen").style.display = "block";
-    displayLeaderboard();
-}
-
-function goHome() {
-    hideAllScreens();
-    document.getElementById("start-screen").style.display = "block";
-}
-
-// 4. LÓGICA DO QUIZ
+// 5. LÓGICA DO QUIZ
 function loadQuestion() {
-    document.getElementById("nextBtn").style.display = "none";
-    let q = quiz[current];
-    document.getElementById("question").innerText = q.q;
+    clearInterval(timer);
+    timeLeft = TIME_PER_QUESTION;
+    
+    const q = quiz[current];
+    const questionEl = document.getElementById("question");
+    const answersDiv = document.getElementById("answers");
+    const nextBtn = document.getElementById("nextBtn");
 
-    let answersDiv = document.getElementById("answers");
+    nextBtn.style.display = "none";
     answersDiv.innerHTML = "";
+    
+    // Cor por dificuldade
+    const diffColors = { f: "#28a745", m: "#ffc107", d: "#dc3545" };
+    questionEl.style.color = diffColors[q.d];
+    questionEl.innerText = q.q;
+
+    // Barra de Progresso
+    updateProgressBar();
+
+    // Alternativas coloridas (estilo variado)
+    const btnColors = ["#4a90e2", "#9b59b6", "#e67e22", "#1abc9c"];
 
     q.a.forEach((answer, index) => {
         let btn = document.createElement("button");
         btn.innerText = answer;
-        btn.onclick = () => checkAnswer(btn, index);
+        btn.style.borderBottom = `4px solid ${btnColors[index]}`;
+        btn.onclick = () => checkAnswer(index);
         answersDiv.appendChild(btn);
     });
+
+    startTimer();
 }
 
-function checkAnswer(btn, index) {
-    let correct = quiz[current].c;
-    let buttons = document.querySelectorAll("#answers button");
+function startTimer() {
+    const timerDisplay = document.getElementById("timer-display");
+    timer = setInterval(() => {
+        timeLeft--;
+        timerDisplay.innerText = `Tempo: ${timeLeft}s`;
+        if (timeLeft <= 0) {
+            clearInterval(timer);
+            checkAnswer(-1); // Estourou o tempo
+        }
+    }, 1000);
+}
 
-    buttons.forEach((b, i) => {
-        b.disabled = true;
-        if(i === correct) b.classList.add("correct");
-        if(i === index && i !== correct) b.classList.add("wrong");
+function updateProgressBar() {
+    const progress = ((current) / quiz.length) * 100;
+    document.getElementById("progress-inner").style.width = `${progress}%`;
+}
+
+function checkAnswer(selectedIndex) {
+    clearInterval(timer);
+    const q = quiz[current];
+    const buttons = document.querySelectorAll("#answers button");
+
+    buttons.forEach((btn, i) => {
+        btn.disabled = true;
+        if (i === q.c) btn.classList.add("correct");
+        if (i === selectedIndex && i !== q.c) btn.classList.add("wrong");
     });
 
-    if(index === correct) score++;
+    if (selectedIndex === q.c) {
+        // Cálculo: (Peso Dificuldade * 100) + (Tempo Restante * 10)
+        const points = Math.round((weights[q.d] * 100) + (timeLeft * 10));
+        totalScore += points;
+    }
+
     document.getElementById("nextBtn").style.display = "block";
 }
 
 function nextQuestion() {
     current++;
-    if(current < quiz.length){
+    if (current < quiz.length) {
         loadQuestion();
     } else {
         finishGame();
     }
 }
 
-function finishGame() {
-    saveScore(playerFullName, score);
-    alert(`Fim de jogo! Você acertou ${score} de ${quiz.length}`);
+async function finishGame() {
+    document.getElementById("quiz-container").innerHTML = "<h2>Salvando pontuação...</h2>";
+    
+    // BUG 1 e 2 Resolvidos: Esperamos o banco processar antes de mudar de tela
+    await saveScore(playerFullName, totalScore);
+    
+    alert(`Fim de jogo! Pontuação Total: ${totalScore}`);
     showLeaderboard();
 }
 
-// 5. CONFIGURAÇÃO SUPABASE
-const SB_URL = "https://grkitlnsashyruvtbbaf.supabase.co";
-const SB_KEY = "sb_publishable_yUMvZjmpiMrqKtWpk8dp8Q_GQd_LfAV";
-
-const supabaseClient = supabase.createClient(SB_URL, SB_KEY); 
-
-// 6. SISTEMA DE RANKING (SQL REAL)
 async function saveScore(name, pts) {
-    console.log("Tentando salvar no SQL...");
-    const { data, error } = await supabaseClient
+    // Busca recorde atual
+    const { data: player } = await supabaseClient
         .from('ranking')
-        .insert([{ nome: name, pontuacao: pts }]);
+        .select('pontuacao')
+        .eq('nome', name)
+        .maybeSingle();
 
-    if (error) {
-        console.error("Erro ao salvar no banco:", error.message);
-    } else {
-        console.log("Salvo com sucesso!");
+    if (player && pts <= player.pontuacao) {
+        return; // Não atualiza se for menor
     }
+
+    // Upsert (Se o nome for igual, o SQL Unique trata e o Supabase atualiza)
+    const { error } = await supabaseClient
+        .from('ranking')
+        .upsert({ nome: name, pontuacao: pts }, { onConflict: 'nome' });
+
+    if (error) console.error("Erro:", error.message);
 }
 
-// 7. SISTEMA DE LEADERBOARD
-async function displayLeaderboard() {
+async function showLeaderboard() {
+    hideAllScreens();
+    document.getElementById("leaderboard-screen").style.display = "block";
+    
     const list = document.getElementById("leaderboard-list");
-    list.innerHTML = "<li>Carregando ranking global...</li>";
+    list.innerHTML = "<li>Carregando...</li>";
 
     const { data: ranking, error } = await supabaseClient
         .from('ranking')
-        .select('nome, pontuacao')
+        .select('*')
         .order('pontuacao', { ascending: false })
         .limit(10);
 
     if (error) {
-        console.error("Erro ao buscar ranking:", error.message);
-        list.innerHTML = "<li>Erro ao carregar dados do servidor.</li>";
-        return;
-    }
-
-    if (!ranking || ranking.length === 0) {
-        list.innerHTML = "<li>Nenhum recorde mundial ainda!</li>";
+        list.innerHTML = "<li>Erro ao carregar.</li>";
         return;
     }
 
     list.innerHTML = ranking.map((item, index) => 
         `<li><span>#${index + 1} ${item.nome}</span> <strong>${item.pontuacao} pts</strong></li>`
     ).join("");
+}
+
+function hideAllScreens() {
+    document.getElementById("start-screen").style.display = "none";
+    document.getElementById("quiz-container").style.display = "none";
+    document.getElementById("leaderboard-screen").style.display = "none";
+}
+
+function goHome() {
+    location.reload(); // Recarrega para limpar estados
 }
