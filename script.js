@@ -4,17 +4,17 @@ const quiz = [
     { q: "O temor do Senhor é o princípio da:", a: ["Fé","Vida","Sabedoria","Lei"], c: 2, d: "f" },
     { q: "Confia no Senhor de todo o teu...", a: ["Caminho","Coração","Entendimento","Espírito"], c: 1, d: "f" },
     { q: "A resposta branda desvia o:", a: ["Orgulho","Pecado","Furor","Caminho"], c: 2, d: "f" },
-    { q: "O orgulho precede a:", a: ["Vitória","Glória","Queda","Sabedoria"], c: 2, d: "m" },
-    { q: "Quem encontra uma esposa encontra:", a: ["Problemas","Alegria momentânea","Algo bom","Sabedoria apenas"], c: 2, d: "m" },
-    { q: "A língua tem poder de:", a: ["Nada","Apenas falar","Vida e morte","Confusão"], c: 2, d: "m" },
-    { q: "Quem escreveu Provérbios 30?", a: ["Salomão","Agur","Davi","Isaías"], c: 1, d: "d" },
+    { q: "O orgulho precede a:", a: ["Vitória","Glória","Queda","Sabedoria"], c: 2, d: "f" },
+    { q: "Quem encontra uma esposa encontra:", a: ["Problemas","Alegria momentânea","Algo bom","Sabedoria apenas"], c: 2, d: "f" },
+    { q: "A língua tem poder de:", a: ["Nada","Apenas falar","Vida e morte","Confusão"], c: 2, d: "f" },
+    { q: "Quem escreveu Provérbios 30?", a: ["Salomão","Agur","Davi","Isaías"], c: 1, d: "f" },
     { q: "O preguiçoso deve aprender com:", a: ["Leão","Formiga","Águia","Cavalo"], c: 1, d: "f" },
-    { q: "Quantas coisas o Senhor odeia?", a: ["5","6","7","8"], c: 2, d: "d" },
-    { q: "Quem reuniu alguns provérbios?", a: ["Profetas","Sacerdotes","Homens de Ezequias","Levitas"], c: 2, d: "d" },
-    { q: "A palavra certa é comparada a:", a: ["Ouro","Prata","Maçãs de ouro","Pérolas"], c: 2, d: "m" },
-    { q: "A sabedoria é descrita como:", a: ["Rei","Anjo","Mulher que clama","Sacerdote"], c: 2, d: "m" },
+    { q: "Quantas coisas o Senhor odeia?", a: ["5","6","7","8"], c: 2, d: "f" },
+    { q: "Quem reuniu alguns provérbios?", a: ["Profetas","Sacerdotes","Homens de Ezequias","Levitas"], c: 2, d: "f" },
+    { q: "A palavra certa é comparada a:", a: ["Ouro","Prata","Maçãs de ouro","Pérolas"], c: 2, d: "f" },
+    { q: "A sabedoria é descrita como:", a: ["Rei","Anjo","Mulher que clama","Sacerdote"], c: 2, d: "f" },
     { q: "Provérbios 31 fala sobre:", a: ["Rei","Mulher virtuosa","Profeta","Guerreiro"], c: 1, d: "f" },
-    { q: "Melhor é o pouco com justiça do que:", a: ["Muito com paz","Muito com injustiça","Pouco com sabedoria","Muito com fé"], c: 1, d: "d" }
+    { q: "Melhor é o pouco com justiça do que:", a: ["Muito com paz","Muito com injustiça","Pouco com sabedoria","Muito com fé"], c: 1, d: "f" }
 ];
 
 // 2. VARIÁVEIS DE ESTADO
