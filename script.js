@@ -1,20 +1,40 @@
 // 1. BANCO DE DADOS CATEGORIZADO
 const quiz = [
-    { q: "Quem é o principal autor de Provérbios?", a: ["Davi","Salomão","Moisés","Paulo"], c: 1, d: "f" },
-    { q: "O temor do Senhor é o princípio da:", a: ["Fé","Vida","Sabedoria","Lei"], c: 2, d: "f" },
-    { q: "Confia no Senhor de todo o teu...", a: ["Caminho","Coração","Entendimento","Espírito"], c: 1, d: "f" },
-    { q: "A resposta branda desvia o:", a: ["Orgulho","Pecado","Furor","Caminho"], c: 2, d: "f" },
-    { q: "O orgulho precede a:", a: ["Vitória","Glória","Queda","Sabedoria"], c: 2, d: "f" },
-    { q: "Quem encontra uma esposa encontra:", a: ["Problemas","Alegria momentânea","Algo bom","Sabedoria apenas"], c: 2, d: "f" },
-    { q: "A língua tem poder de:", a: ["Nada","Apenas falar","Vida e morte","Confusão"], c: 2, d: "f" },
-    { q: "Quem escreveu Provérbios 30?", a: ["Salomão","Agur","Davi","Isaías"], c: 1, d: "f" },
-    { q: "O preguiçoso deve aprender com:", a: ["Leão","Formiga","Águia","Cavalo"], c: 1, d: "f" },
-    { q: "Quantas coisas o Senhor odeia?", a: ["5","6","7","8"], c: 2, d: "f" },
-    { q: "Quem reuniu alguns provérbios?", a: ["Profetas","Sacerdotes","Homens de Ezequias","Levitas"], c: 2, d: "f" },
-    { q: "A palavra certa é comparada a:", a: ["Ouro","Prata","Maçãs de ouro","Pérolas"], c: 2, d: "f" },
-    { q: "A sabedoria é descrita como:", a: ["Rei","Anjo","Mulher que clama","Sacerdote"], c: 2, d: "f" },
-    { q: "Provérbios 31 fala sobre:", a: ["Rei","Mulher virtuosa","Profeta","Guerreiro"], c: 1, d: "f" },
-    { q: "Melhor é o pouco com justiça do que:", a: ["Muito com paz","Muito com injustiça","Pouco com sabedoria","Muito com fé"], c: 1, d: "f" }
+    // FÁCIL (1-10)
+    { q: "Quem é o principal autor associado ao Livro de Provérbios?", a: ["Davi", "Moisés", "Salomão", "Paulo"], c: 2, d: "f" },
+    { q: "Provérbios faz parte de qual tipo de livro da Bíblia?", a: ["Histórico", "Poético", "Evangelho", "Profético"], c: 1, d: "f" },
+    { q: "Complete: 'O temor do Senhor é o princípio da __.'", a: ["Justiça", "Paz", "Fé", "Sabedoria"], c: 3, d: "f" },
+    { q: "Provérbios ensina mais sobre:", a: ["Sabedoria", "Fama", "Milagres", "Prosperidade"], c: 0, d: "f" },
+    { q: "O livro de Provérbios tem mais:", a: ["Profecias", "Histórias", "Conselhos práticos", "Genealogias"], c: 2, d: "f" },
+    { q: "O que devemos guardar acima de tudo, segundo Provérbios?", a: ["A mente", "Os olhos", "A vida", "O coração"], c: 3, d: "f" },
+    { q: "Complete: 'A resposta branda desvia o __.'", a: ["Orgulho", "Furor", "Insensato", "Mal"], c: 1, d: "f" },
+    { q: "O que Provérbios diz sobre ouvir conselhos?", a: ["É para crianças", "Torna a pessoa sábia", "É cansativo", "Torna a pessoa boa"], c: 1, d: "f" },
+    { q: "Quem anda com os sábios se torna:", a: ["Forte", "Sábio", "Bom", "Rico"], c: 1, d: "f" },
+    { q: "O que é abominação para Deus em Provérbios?", a: ["Orgulho", "Dormir muito", "Briga", "Não se casar"], c: 0, d: "f" },
+
+    // MÉDIO (11-20)
+    { q: "Em Provérbios, o que é melhor do que ouro e prata?", a: ["Poder", "Vida", "Sabedoria", "Mulher virtuosa"], c: 2, d: "m" },
+    { q: "Segundo Provérbios, como devemos responder à ira?", a: ["Com resposta branda", "Fugindo de problemas", "Ignorando", "Com uma surra"], c: 0, d: "m" },
+    { q: "O que Provérbios diz sobre a língua?", a: ["Serve para ensinar", "Deve falar pouco", "Pode ferir mais do que armas", "Tem poder de vida e morte"], c: 3, d: "m" },
+    { q: "Qual é o destino do preguiçoso segundo Provérbios?", a: ["Anda na tolice", "Caminha para a pobreza", "Perde o discernimento", "Acaba dependendo dos outros"], c: 1, d: "m" },
+    { q: "O que Provérbios fala sobre amizades?", a: ["O isolamento preserva a sabedoria", "A convivência molda o caráter do homem", "As amizades não influenciam as decisões", "Influenciam nosso comportamento"], c: 3, d: "m" },
+    { q: "Segundo Provérbios, o que acontece com quem controla a língua?", a: ["Evita problemas", "Se alegra", "Não comete erros", "Ganha influência"], c: 0, d: "m" },
+    { q: "O que Provérbios diz sobre o amigo verdadeiro?", a: ["É sempre feliz", "Evita confrontos", "Ama em todo tempo", "É quase um parente"], c: 2, d: "m" },
+    { q: "De acordo com o livro de Provérbios, melhor é:", a: ["Ser conhecido e ter prestígio", "Ser rico e ter respeito", "Ser pobre e íntegro", "Exercer liderança"], c: 2, d: "m" },
+    { q: "O que Provérbios fala sobre a inveja?", a: ["Corrói por dentro", "Impulsiona o crescimento", "Traz à tona o caráter", "É ambição saudável"], c: 0, d: "m" },
+    { q: "Quem é a mulher descrita em Provérbios 31?", a: ["Uma profetisa", "Uma mulher virtuosa", "Uma sacerdotisa", "Uma rainha guerreira"], c: 1, d: "m" },
+
+    // DIFÍCIL (21-30)
+    { q: "Em Provérbios, o ferro com ferro se afia. O que isso simboliza?", a: ["A disciplina", "Trabalho duro", "Amizade verdadeira", "O crescimento mútuo"], c: 3, d: "d" },
+    { q: "Em Provérbios é dito que muitas palavras trazem:", a: ["Conhecimento", "Pecado", "Sabedoria", "Arrependimento"], c: 1, d: "d" },
+    { q: "Provérbios adverte a não se gloriar do:", a: ["Dinheiro", "Amanhã", "Presente", "Passado"], c: 1, d: "d" },
+    { q: "Qual característica é constantemente associada ao sábio em Provérbios?", a: ["Riqueza", "Conhecimento", "Humildade", "Alegria"], c: 2, d: "d" },
+    { q: "Provérbios ensina que quem encobre suas transgressões:", a: ["Não prosperará", "Será esquecido", "Viverá angustiado", "Será morto"], c: 0, d: "d" },
+    { q: "Complete: 'O coração alegre é como bom __.'", a: ["Tesouro", "Conselho", "Alimento", "Remédio"], c: 3, d: "d" },
+    { q: "Provérbios compara o insensato que repete sua insensatez a:", a: ["Leão que ruge", "Um cão que volta ao seu vômito", "Pássaro que retorna ao ninho", "Homem sem fundamento"], c: 1, d: "d" },
+    { q: "Segundo Provérbios, toda palavra de Deus é pura e:", a: ["Lâmpada para os pés", "Água viva", "Escudo para os que confiam nele", "Ouro refinado"], c: 2, d: "d" },
+    { q: "Provérbios aconselha: 'Compra a verdade e não a vendas; também a…'", a: ["Prudência e temor", "Sabedoria, instrução e entendimento", "Justiça e misericórdia", "Fé e humildade"], c: 1, d: "d" },
+    { q: "Provérbios afirma que 'comer muito mel não é bom'. O que isso simboliza?", a: ["Excesso de prazeres", "Pensar só em si mesmo", "Muitas riquezas", "Aproveitar-se de autoridade"], c: 0, d: "d" }
 ];
 
 // 2. VARIÁVEIS DE ESTADO
